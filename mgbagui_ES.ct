@@ -1,0 +1,168 @@
+## version $VER: mgbagui.catalog 1.1 (17.05.2024)
+## codeset 4
+## language spanish
+;
+MSG_ERROR_NOROMS
+Ninguna ROM encontrada.
+; No roms found.
+;
+MSG_ERROR_REQUIRED
+No se puede abrir librería/clase requerida.
+; Couldn't find required library/classes.
+;
+MSG_ERROR_ROMDRAWER
+\033cFallo al cargar ROMs:\n%s.
+; \033cFailed to load ROM drawer:\n%s.
+;
+MSG_ERROR_LAUNCHING
+¡Error al ejecutar mGBA!
+; Error launching mgba executable!
+;
+MSG_ERROR_GUI_NOPREVIEW
+vista-previa no disponible
+; Preview not available
+;
+MSG_OK_GAD
+_Aceptar
+; _OK
+;
+MSG_GUI_ABOUT_TEXT
+\033c\033b%s %s\033n\n\n\
+GUI para mGBA, OS4 port por Marek Glogowski\n\n\
+Agradecimientos: Maijestro, McFly,\n\
+samo79, smarkusg y a todo el mundo.\n\n\
+(Traducción: Javier de las Rivas)
+; \033c\033b%s %s\033n\n\n\
+; GUI for MGBA, OS4 port by Marek Glogowski\n\n\
+; Acknowlegdments: samo79, smarkusg\n\
+; and everyone I forget.\n\n\
+; (using built-in strings)
+;
+MSG_GUI_TITLE_COL_ROM
+Juego
+; Game
+;
+MSG_GUI_TITLE_COL_FMT
+Formato
+; Format
+;
+MSG_GUI_ROMDRAWER
+ ROMS:
+;  ROMS:
+;
+MSG_GUI_ROMDRAWER_TITLE
+Elegir ubicación con ROMs
+; Select ROMs path
+;
+MSG_GUI_SAVESTATES
+Cargar \"savestate\"
+; Load savestate
+;
+MSG_GUI_SAVESTATES_NO
+No
+; No
+;
+MSG_GUI_SAVESTATES_AUTO
+auto.
+; auto
+;
+MSG_GUI_GFXSCALE
+Aspecto
+; View mode
+;
+MSG_GUI_GFXSCALE_W
+V x
+; W x
+;
+MSG_GUI_GFXSCALE_FS
+FS
+; FS
+;
+MSG_GUI_FRAMESKIP
+Saltar fotogs.
+; Frameskip
+;
+MSG_GUI_FORCESIZE
+Forzar res.
+; Force size
+;
+MSG_GUI_TOTALROMS
+ %ld roms disponibles
+;  %ld roms availables
+;
+MSG_GUI_GAME_RUN
+Jugar ROM seleccionada
+; Play selected game
+;
+MSG_GUI_ABOUT_BTN
+Acerca de...
+; About...
+;
+MSG_GUI_SAVE_BTN
+Guardar ajustes
+; Save settings
+;
+MSG_GUI_QUIT_BTN
+Salir
+; Quit
+;
+MSG_GUI_ROMDRAWER_HELP
+Ubicación con ROMs de Gameboy/Advance.
+; Path with Gameboy/Advance ROMs.
+;
+MSG_GUI_LISTBROWSER_HELP
+Lista de ROMs/juegos de Gameboy/Advance.\n\
+Doble clic para \"lanzar\" la ROM.
+; List of Gameboy/Advance ROMs.\n\
+; Double click to \"launch\" ROM.
+;
+OID_PREVIEW_BTN_HELP
+Clic para \"lanzar\" la ROM.
+; Click to \"launch\" ROM.
+;
+MSG_GUI_SAVESTATES_HELP
+Lista de \"savestates\" de\n\
+la ROM seleccionada.
+; List availables savestates\n\
+; from selected ROM.\n\
+; (\033bauto: \033nloads last gameplay)
+;
+MSG_GUI_GFXSCALE_HELP
+Aspecto del juego:\n\
+\033bV: \033nventana (escalado x1,x2,..).\n\
+\033bFS: \033npantalla completa.
+; How to view/display game.\n\
+; \033bW: \033nwindow (scaled x1,x2,..).\n\
+; \033bFS: \033nfullscreen.
+;
+MSG_GUI_FRAMESKIP_HELP
+Fotogramas a saltar. (máx.:10)
+; Number of frames to skip (max.:10).
+;
+MSG_GUI_FORCESIZE_HELP
+Forzar resolución (ancho y alto)\n\
+de ventana/pantalla.
+; Force window/screen\n\
+; width and height.
+;
+MSG_GUI_ABOUT_BTN_HELP
+Mostrar acerca de mgbaGUI
+; Show about mgbaGUI
+;
+MSG_GUI_SAVE_BTN_HELP
+Guardar argumentos\n\
+de icono (\"Tooltypes\"):\n\
+\033bROMS_DRAWER\n\
+VIEWMODE\n\
+FORCESIZE_W\n\
+FORCESIZE_H
+; Save tooltypes:\n\
+; \033bROMS_DRAWER\n\
+; VIEWMODE\n\
+; FORCESIZE_W\n\
+; FORCESIZE_H
+;
+MSG_GUI_QUIT_BTN_HELP
+Salir de mgbaGUI
+; Quit mgbaGUI
+;
