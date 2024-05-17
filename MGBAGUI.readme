@@ -1,0 +1,48 @@
+MGBAGUI v1.1 (2024.mm.dd)
+*************************
+
+USAGE:
+-Workbench icon:
+PUBSCREEN=<public_screen_name>: open on pubscreen. To create a public
+screen use 'SYS:Prefs/Screens'.
+ROMS_DRAWER=<path>: path with Gameboy/Advance rom files.
+LAST_ROM_LAUNCHED=<value>: position in list of last launched ROM.
+SHOW_HINTS: show hints/help when mouse cursor is over gadgets.
+NO_GUI_FADE: don't use fade in/out GUI effect.
+FORCESIZE_W=<value>: force width of window/screen.
+FORCESIZE_H=<value>: force height of window/screen.
+VIEWMODE=<value>: 1:Window x1, 2:Window x2 .. 9:FullScreen.
+
+-Keyboard handling:
+ESC quits mgbaGUI.
+-Keyboard handling in GENERAL tab:
+Cursor Up/Down, Page Up/Down and Home/End keys to select ROM.
+Enter/Return to launch selected ROM.
+Keypress (0-9/A-Z) should go to a ROM starting with such letter/key pressed.
+
+-Mouse usage:
+You can launch a ROM entry by double click on an entry or clicking in
+the cover/image (it's a button).
+
+
+TRANSLATORS:
+Italian catalog by Samir 'Samo79' Hawamdeh.
+Spanish catalog by Javier de las Rivas.
+
+
+SPECIAL THANKS:
+Marek Glogowski for such great Gameboy/Advance port!!!
+McFly for such great images.
+
+
+TO-DO:
+-Fix bugs.
+-Ideas, suggestions...
+
+
+AUTHOR:
+Javier de las Rivas <jabierdlr@gmail.com>
+
+
+HISTORY:
+V1.1 (2024.mm.dd): first release

@@ -1,0 +1,140 @@
+; $VER: mgbagui.cd 1.1 (15.05.2024)
+;
+;
+MSG_ERROR_NOROMS (1//)
+No roms found.
+;
+MSG_ERROR_REQUIRED (//)
+Couldn't find required library/classes.
+;
+MSG_ERROR_ROMDRAWER (//500)
+\033cFailed to load ROM drawer:\n%s.
+; IOERR_STRING
+;
+MSG_ERROR_LAUNCHING (//)
+Error launching mgba executable!
+;
+MSG_ERROR_GUI_NOPREVIEW (//)
+Preview not available
+;
+;
+MSG_OK_GAD (50//)
+_OK
+;
+MSG_GUI_ABOUT_TEXT (//200)
+\033c\033b%s %s\033n\n\n\
+GUI for MGBA, OS4 port by Marek Glogowski\n\n\
+Acknowlegdments: samo79, smarkusg\n\
+and everyone I forget.\n\n\
+(using built-in strings)
+;VERS DATE (and change 'built-in..' with translator data, keep as short as possible)
+;
+;
+MSG_GUI_TITLE_COL_ROM (100//)
+Game
+;
+MSG_GUI_TITLE_COL_FMT (//)
+Format
+;
+MSG_GUI_ROMDRAWER (//)
+ ROMS:
+;
+MSG_GUI_ROMDRAWER_TITLE (//)
+Select ROMs path
+;
+MSG_GUI_SAVESTATES (//)
+Load savestate
+;
+MSG_GUI_SAVESTATES_NO (//)
+No
+;
+MSG_GUI_SAVESTATES_AUTO (//)
+auto
+;
+MSG_GUI_GFXSCALE (//)
+View mode
+;Scale window
+;
+;MAX 3 chars. Slider [W x1] or [W x2]..
+MSG_GUI_GFXSCALE_W (//3)
+W x
+;
+;MAX 4 chars. Slider [ FS ]
+MSG_GUI_GFXSCALE_FS (//4)
+FS
+;
+;MSG_GUI_FULLSCREEN (//)
+;Fullscreen
+;
+MSG_GUI_FRAMESKIP (//)
+Frameskip
+;
+MSG_GUI_FORCESIZE (//)
+Force size
+;
+MSG_GUI_TOTALROMS (//)
+ %ld roms availables
+;space at beginning to not being too close to rom listbrowser
+;
+;MSG_GUI_OPTIONS_GROUP (//)
+;Options
+;
+MSG_GUI_GAME_RUN (//)
+Play selected game
+;
+MSG_GUI_ABOUT_BTN (//)
+About...
+;
+MSG_GUI_SAVE_BTN (//)
+Save settings
+;
+MSG_GUI_QUIT_BTN (//)
+Quit
+;
+;
+MSG_GUI_ROMDRAWER_HELP (500//)
+Path with Gameboy/Advance ROMs.
+;
+MSG_GUI_LISTBROWSER_HELP (//)
+List of Gameboy/Advance ROMs.\n\
+Double click to \"launch\" ROM.
+;
+OID_PREVIEW_BTN_HELP (//)
+Click to \"launch\" ROM.
+;
+MSG_GUI_SAVESTATES_HELP (//)
+List availables savestates\n\
+from selected ROM.\n\
+(\033bauto: \033nloads last gameplay)
+;
+MSG_GUI_GFXSCALE_HELP (//)
+How to view/display game.\n\
+\033bW: \033nwindow (scaled x1,x2,..).\n\
+\033bFS: \033nfullscreen.
+;Show game in \033bW\033nindow (scaled x1,x2,..)\n\
+;or in \033bF\033null\033bS\033ncreen.
+;Value/Times to scale window (max.:x8).
+;
+;MSG_GUI_FULLSCREEN_HELP (//)
+;Open game in fullscreen mode.
+;
+MSG_GUI_FRAMESKIP_HELP (//)
+Number of frames to skip. (max.:10)
+;
+MSG_GUI_FORCESIZE_HELP (//)
+Force window/screen\n\
+width and height.
+;
+MSG_GUI_ABOUT_BTN_HELP (//)
+Show about mgbaGUI
+;
+MSG_GUI_SAVE_BTN_HELP (//)
+Save tooltypes:\n\
+\033bROMS_DRAWER\n\
+VIEWMODE\n\
+FORCESIZE_W\n\
+FORCESIZE_H
+;
+MSG_GUI_QUIT_BTN_HELP (//)
+Quit mgbaGUI
+;
