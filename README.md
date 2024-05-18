@@ -1,14 +1,14 @@
 # mgbagui
-GUI for MGBA, OS4 port by Marek Glogowsk
+GUI for mGBA, OS4 port by Marek Glogowsk
 
-SPECIAL THANKS:
+### SPECIAL THANKS:
 
 -Marek Glogowski for such great Gameboy/Advance port!!!
 
 -McFly for such great images.
 
 
-TRANSLATORS:
+### TRANSLATORS:
 
 -Italian catalog by Samir 'Samo79' Hawamdeh.
 
