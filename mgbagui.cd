@@ -23,9 +23,9 @@ _OK
 ;
 MSG_GUI_ABOUT_TEXT (//200)
 \033c\033b%s %s\033n\n\n\
-GUI for MGBA, OS4 port by Marek Glogowski\n\n\
-Acknowlegdments: samo79, smarkusg\n\
-and everyone I forget.\n\n\
+GUI for mGBA, OS4 port by Marek Glogowski\n\n\
+Acknowlegdments: McFly, samo79,\n\
+smarkusg and everyone I forget.\n\n\
 (using built-in strings)
 ;VERS DATE (and change 'built-in..' with translator data, keep as short as possible)
 ;
@@ -48,8 +48,8 @@ Load savestate
 MSG_GUI_SAVESTATES_NO (//)
 No
 ;
-MSG_GUI_SAVESTATES_AUTO (//)
-auto
+;MSG_GUI_SAVESTATES_AUTO (//)
+;auto
 ;
 MSG_GUI_GFXSCALE (//)
 View mode
@@ -104,8 +104,8 @@ Click to \"launch\" ROM.
 ;
 MSG_GUI_SAVESTATES_HELP (//)
 List availables savestates\n\
-from selected ROM.\n\
-(\033bauto: \033nloads last gameplay)
+from selected ROM.
+;(\033bauto: \033nloads last gameplay)
 ;
 MSG_GUI_GFXSCALE_HELP (//)
 How to view/display game.\n\
