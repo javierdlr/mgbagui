@@ -10,6 +10,10 @@ GUI for mGBA, OS4 port by Marek Glogowsk
 
 ### TRANSLATORS:
 
+-German catalog by Rene 'Maijestro' Engel.
+
 -Italian catalog by Samir 'Samo79' Hawamdeh.
+
+-Polish catalog by Marek 'smarkusg' Glogowski.
 
 -Spanish catalog by Javier de las Rivas.
