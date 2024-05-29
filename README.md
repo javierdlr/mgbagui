@@ -1,5 +1,5 @@
 # mgbagui
-GUI for mGBA, OS4 port by Marek Glogowsk
+GUI for mGBA, OS4 port by Marek Glogowsk (https://github.com/smarkusg/mgba)
 
 ### SPECIAL THANKS:
 
