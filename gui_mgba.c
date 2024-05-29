@@ -54,11 +54,12 @@ DBUG("*** START "VERS" ***\n",NULL);
 		//GUI->myTT.ttpBuf2 = IExec->AllocVecTags(MAX_DOS_PATH, AVT_ClearWithValue,NULL, TAG_END);
 		GUI->myTT.show_hints = FALSE;
 		GUI->myTT.guifade    = TRUE;
-GUI->myTT.autosnapshot = FALSE;
+//GUI->myTT.autosnapshot = FALSE;
 		GUI->forcesize = FALSE;
-		GUI->myTT.forcesize_w = 480;
-		GUI->myTT.forcesize_h = 432;
+		GUI->myTT.forcesize_w = FORCESIZE_W_MIN;
+		GUI->myTT.forcesize_h = FORCESIZE_H_MIN;
 		GUI->myTT.viewmode   = 1;
+		GUI->ai_port = IExec->AllocSysObject(ASOT_PORT, NULL);
 
 DBUG("WBStartup = 0x%08lx\n",wbs);
 		if(wbs) // launched from WB/icon
@@ -94,27 +95,8 @@ DBUG("ROMS_DRAWER tooltype is '%s'\n",GUI->myTT.romsdrawer);
 				{
 					IDOS->StrToLong(ttp, &GUI->myTT.last_rom_run);
 DBUG("LAST_ROM_LAUNCHED tooltype is %ld\n",GUI->myTT.last_rom_run);
-					--GUI->myTT.last_rom_run; // listbrowser starts from 0
+					--GUI->myTT.last_rom_run; // listbrowser's index starts from 0
 				}
-
-				/*ttp = IIcon->FindToolType(micon->do_ToolTypes, "DGEN_SDL");
-				if(ttp)
-				{
-					//IDOS->StrToLong(ttp, &DGenG->myTT.dgensdl_exec);
-					DGenG->myTT.dgensdl_exec = ttp[0] - 0x30; // lazy way to convert 1 char -> int32
-					if(DGenG->myTT.dgensdl_exec != 2) { DGenG->myTT.dgensdl_exec = 1; }
-					//if(DGenG->myTT.dgensdl_exec!=1  &&  DGenG->myTT.dgensdl_exec != 2) { DGenG->myTT.dgensdl_exec = 0; }
-DBUG("DGEN_SDL tooltype is %ld\n",DGenG->myTT.dgensdl_exec);
-				}*/
-
-				/*ttp = IIcon->FindToolType(micon->do_ToolTypes, "FORCE_LOWRES");
-				if(ttp)
-				{
-					//IDOS->StrToLong(ttp, &DGenG->myTT.force_lowres);
-					DGenG->myTT.force_lowres = ttp[0] - 0x30; // lazy way to convert 1 char -> int32
-					if(DGenG->myTT.force_lowres<0  &&  DGenG->myTT.force_lowres>2) { DGenG->myTT.force_lowres = 0; }
-DBUG("FORCE_LOWRES tooltype is %ld\n",DGenG->myTT.force_lowres);
-				}*/
 
 				ttp = IIcon->FindToolType(micon->do_ToolTypes, "SHOW_HINTS");
 				if(ttp) { GUI->myTT.show_hints = TRUE; }
@@ -126,9 +108,9 @@ DBUG("FORCE_LOWRES tooltype is %ld\n",DGenG->myTT.force_lowres);
 DBUG("NO_GUI_FADE tooltype enabled\n");
 				}
 
-ttp = IIcon->FindToolType(micon->do_ToolTypes, "AUTO_SNAPSHOT");
+/*ttp = IIcon->FindToolType(micon->do_ToolTypes, "AUTO_SNAPSHOT");
 if(ttp) { GUI->myTT.autosnapshot = TRUE; }
-DBUG("AUTO_SNAPSHOT tooltype is %ld\n",GUI->myTT.autosnapshot);
+DBUG("AUTO_SNAPSHOT tooltype is %ld\n",GUI->myTT.autosnapshot);*/
 
 				ttp = IIcon->FindToolType(micon->do_ToolTypes, "FORCESIZE_W");
 				if(ttp) {
@@ -162,17 +144,12 @@ DBUG("pubscreen=0x%lx '%s'\n",GUI->screen,GUI->screen->Title);
 
 		GUI->romlist = IExec->AllocSysObject(ASOT_LIST, NULL);
 		GUI->savestates_list = IExec->AllocSysObject(ASOT_LIST, NULL);
-		//DGenG->game_opts_list = IExec->AllocSysObject(ASOT_LIST, NULL);
 
 		CreateGUIwindow(GUI);
 
 		free_chooserlist_nodes(GUI->savestates_list);
 		IExec->FreeSysObject(ASOT_LIST, GUI->savestates_list);
 		GUI->savestates_list = NULL;
-
-		/*free_chooserlist_nodes(DGenG->game_opts_list);
-		IExec->FreeSysObject(ASOT_LIST, DGenG->game_opts_list);
-		DGenG->game_opts_list = NULL;*/
 
 		IListBrowser->FreeListBrowserList(GUI->romlist);
 		IExec->FreeSysObject(ASOT_LIST, GUI->romlist);
@@ -185,6 +162,8 @@ DBUG("pubscreen=0x%lx '%s'\n",GUI->screen,GUI->screen->Title);
 		//IExec->FreeVec(DGenG->myTT.newttp);
 		//IExec->FreeVec(DGenG->myTT.ttpBuf1);
 		//IExec->FreeVec(DGenG->myTT.ttpBuf2);
+
+		IExec->FreeSysObject(ASOT_PORT, GUI->ai_port);
 
 		IExec->FreeVec(GUI);
 	}

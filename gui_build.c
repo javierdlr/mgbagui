@@ -21,6 +21,7 @@ extern STRPTR DupStr(CONST_STRPTR str, int32 length);
 extern VOID FreeString(STRPTR *string);
 extern int32 SaveToolType(STRPTR iconname, STRPTR ttpName, STRPTR ttpArg);
 extern void free_chooserlist_nodes(struct List *);
+extern void openGamepadWin(struct MGBAGUI *);
 
 
 extern struct IconIFace *IIcon;
@@ -42,7 +43,7 @@ extern struct ChooserIFace *IChooser;
 extern struct WBStartup *WBenchMsg;
 
 
-Object *Objects[LAST_NUM];
+Object *Objects[LAST_OID];
 uint32 res_prev; // avoid "reload" already selected ROM
 char win_fs[5] = ""; // used in win_fs_lvlFunc()
 
@@ -66,8 +67,8 @@ DBUG("beginCommand()\n",NULL);
 DBUG("  ExamineObjectTags(): '%s' %s%lld bytes\n",dat->Name,"",dat->FileSize);
 	IDOS->FreeDosObject(DOS_EXAMINEDATA, dat);
 
-	// Add executble to commandline string
-		IUtility->Strlcpy(cmdline, "mgba", CMDLINE_LENGTH);
+	// Add executable to commandline string
+		IUtility->Strlcpy(cmdline, "mGBA", CMDLINE_LENGTH);
 
 	// Add savestate (if chosen) to commandline string
 		IIntuition->GetAttrs(OBJ(OID_SAVESTATES), CHOOSER_Selected,&res_val, CHOOSER_SelectedNode,(uint32*)&res_nod, TAG_DONE);
@@ -162,15 +163,15 @@ BOOL ProcessGUI(struct MGBAGUI *gui)
 				done = FALSE;
 			break;
 			case WMHI_ICONIFY:
-DBUG("WMHI_ICONIFY (win=0x%08lx)\n",gui->win);
+DBUG("WMHI_ICONIFY (win[WID_MAIN]=0x%08lx)\n",gui->win[WID_MAIN]);
 				if( IIntuition->IDoMethod(OBJ(OID_MAIN), WM_ICONIFY) ) {
-					gui->win = NULL;
+					gui->win[WID_MAIN] = NULL;
 				}
 			break;
 			case WMHI_UNICONIFY:
-				if( (gui->win=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) ) {
-DBUG("WMHI_UNICONIFY (win=0x%08lx)\n",gui->win);
-					gui->screen = gui->win->WScreen;
+				if( (gui->win[WID_MAIN]=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) ) {
+DBUG("WMHI_UNICONIFY (win[WID_MAIN]=0x%08lx)\n",gui->win[WID_MAIN]);
+					gui->screen = gui->win[WID_MAIN]->WScreen;
 					IIntuition->ScreenToFront(gui->screen);
 				}
 				else { done = FALSE; }
@@ -210,7 +211,7 @@ DBUG("          '%lC' -> '%lC'\n",*node_val,*next_n_val);
 			// SELECT IT: NEXT node starts with KEY pressed and NEXT node = ACTUAL node
 			if( char_keyb==IUtility->ToUpper(*next_n_val)  &&  IUtility->ToUpper(*next_n_val)==IUtility->ToUpper(*node_val) )
 			{
-				res_prev = selectListEntryNode(gui->win, next_node1);
+				res_prev = selectListEntryNode(gui->win[WID_MAIN], next_node1);
 				ShowPreview(gui);
 			}
 			// GO TO KEY PRESSED FIRST NODE: 1)ACTUAL node starts with KEY pressed and NEXT node != ACTUAL node
@@ -223,7 +224,7 @@ DBUG("          '%lC' -> '%lC'\n",*node_val,*next_n_val);
 					IListBrowser->GetListBrowserNodeAttrs(node1, LBNA_Column,COL_ROM, LBNCA_Text,&res_str, TAG_DONE);
 					char_node = IUtility->ToUpper(*res_str); // uppercased (romfile 1st letter)
 					if(char_node==char_keyb  &&  node1!=next_node1) {
-						res_prev = selectListEntryNode(gui->win, node1);
+						res_prev = selectListEntryNode(gui->win[WID_MAIN], node1);
 						ShowPreview(gui);
 						node1 = NULL;
 					}
@@ -235,7 +236,7 @@ DBUG("          '%lC' -> '%lC'\n",*node_val,*next_n_val);
 		case WMHI_RAWKEY:
 		{
 			int32 sel_entry = -1; // -1: key pressed not valid
-DBUG("[WMHI_RAWKEY] 0x%lx (win=0x%08lx)\n",code,gui->win);
+DBUG("[WMHI_RAWKEY] 0x%lx (win[WID_MAIN]=0x%08lx)\n",code,gui->win[WID_MAIN]);
 			/*if(code == RAWKEY_ESC)
 			{
 				done = FALSE;
@@ -276,7 +277,7 @@ DBUG("  sel=%ld  nodes=%ld\n",res_value,res_totnode);
 			}
 
 			if(sel_entry != -1) {
-				res_prev = selectListEntry(gui->win, sel_entry);
+				res_prev = selectListEntry(gui->win[WID_MAIN], sel_entry);
 				ShowPreview(gui);
 			}
 
@@ -293,13 +294,13 @@ DBUG("[WMHI_GADGETUP] code = %ld (0x%08lx)\n",code,code);
 			switch(result & WMHI_GADGETMASK)
 			{
 				case OID_ROMDRAWER:
-					res_value = IIntuition->IDoMethod(OBJ(OID_ROMDRAWER), GFILE_REQUEST, gui->win);
+					res_value = IIntuition->IDoMethod(OBJ(OID_ROMDRAWER), GFILE_REQUEST, gui->win[WID_MAIN]);
 					if(res_value) {
 						updateList(gui);
 						// Sort and refresh new list and chooser info
-						IIntuition->DoGadgetMethod(GAD(OID_LISTBROWSER), gui->win, NULL,
+						IIntuition->DoGadgetMethod(GAD(OID_LISTBROWSER), gui->win[WID_MAIN], NULL,
 						                           LBM_SORT, NULL, COL_ROM, LBMSORT_FORWARD, NULL);
-						IIntuition->RefreshSetGadgetAttrs(GAD(OID_LISTBROWSER), gui->win, NULL,
+						IIntuition->RefreshSetGadgetAttrs(GAD(OID_LISTBROWSER), gui->win[WID_MAIN], NULL,
                                         LISTBROWSER_Selected,0, LISTBROWSER_MakeVisible,0, TAG_DONE);
 						// Reset selected rom to 1st entry
 						res_prev = 0;
@@ -321,18 +322,16 @@ DBUG("  Selected: [old]%ld == [new]%ld\n",res_prev,res_temp);
 				case OID_PREVIEW_BTN:
 					LaunchRom(gui);
 				break;
-				/*case OID_DGENEXE:
-					gui->myTT.dgensdl_exec = code + 1;
+				case OID_GAMEPAD_BTN:
+DBUG("  OID_GAMEPAD_BTN\n",NULL);
+					openGamepadWin(gui); // open gamepad window
 				break;
-				case OID_FORCELOWRES:
-					gui->myTT.force_lowres = code;
-				break;*/
 				case OID_FORCESIZE:
 					// Refresh settings page Engine/VideoHack gadgets
 					gui->forcesize = code;
 					IIntuition->SetAttrs(GAD(OID_FS_WIDTH),  GA_Disabled,!gui->forcesize, TAG_DONE);
 					IIntuition->SetAttrs(GAD(OID_FS_HEIGHT), GA_Disabled,!gui->forcesize, TAG_DONE);
-					IIntuition->RefreshGadgets(GAD(OID_FORCESIZE_GROUP), gui->win, NULL);
+					IIntuition->RefreshGadgets(GAD(OID_FORCESIZE_GROUP), gui->win[WID_MAIN], NULL);
 				break;
 				case OID_FS_WIDTH:
 					gui->myTT.forcesize_w = code;
@@ -347,12 +346,6 @@ DBUG("  Selected: [old]%ld == [new]%ld\n",res_prev,res_temp);
 					DoMessage(text_buf, REQIMAGE_INFO, NULL);
 				}
 				break;
-				/*case OID_GAME_OPTIONS:
-					IIntuition->RefreshSetGadgetAttrs(GAD(OID_SAVESTATES), gui->win, NULL, GA_Disabled,code==0? FALSE:TRUE, TAG_DONE);
-				break;*/
-				/*case OID_PLAY_RECGAME:
-					//IIntuition->RefreshSetGadgetAttrs(GAD(OID_RECGAME_FILE), gui->win, NULL, GA_Disabled,code==1? FALSE:TRUE, TAG_DONE);
-				break;*/
 				case OID_SAVE:
 				{
 					char str[5] = "";
@@ -369,21 +362,21 @@ if(gui->myTT.autosnapshot==FALSE  &&  res_val==0xC0DEDEAD) { // 0xC0DEDEAD == "a
 	SaveToolType(gui->wbs->sm_ArgList->wa_Name, "AUTO_SNAPSHOT", NULL);
 }
 */
-//VIEWMODE
-IIntuition->GetAttrs(OBJ(OID_GFXSCALE), SLIDER_Level,&res_value, TAG_DONE);
-str[0] = res_value+0x30; // +0x30 -> "convert" value to char
-SaveToolType(gui->wbs->sm_ArgList->wa_Name, "VIEWMODE", str);
-//FORCESIZE
-if(gui->forcesize) {
-	IUtility->SNPrintf(str, sizeof(str), "%ld",gui->myTT.forcesize_w);
-	SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_W", str);
-	IUtility->SNPrintf(str, sizeof(str), "%ld",gui->myTT.forcesize_h);
-	SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_H", str);
-}
-else {
-	SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_W", DISABLE_TT);
-	SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_H", DISABLE_TT);
-}
+					// VIEWMODE
+					IIntuition->GetAttrs(OBJ(OID_GFXSCALE), SLIDER_Level,&res_value, TAG_DONE);
+					str[0] = res_value+0x30; // +0x30 -> "convert" value to char
+					SaveToolType(gui->wbs->sm_ArgList->wa_Name, "VIEWMODE", str);
+					// FORCESIZE
+					if(gui->forcesize) {
+						IUtility->SNPrintf(str, sizeof(str), "%ld",gui->myTT.forcesize_w);
+						SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_W", str);
+						IUtility->SNPrintf(str, sizeof(str), "%ld",gui->myTT.forcesize_h);
+						SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_H", str);
+					}
+					else {
+						SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_W", DISABLE_TT);
+						SaveToolType(gui->wbs->sm_ArgList->wa_Name, "FORCESIZE_H", DISABLE_TT);
+					}
 				}
 				break;
 				case OID_QUIT:
@@ -434,11 +427,8 @@ void CreateGUIwindow(struct MGBAGUI *gui)
 	struct ColumnInfo *columninfo;
 	uint32 res_totnode;
 	//struct Node *node;
-struct Hook *win_fs_lvlHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry,win_fs_lvlFunc, TAG_END); // Window/Fullscreen
+	struct Hook *win_fs_lvlHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry,win_fs_lvlFunc, TAG_END); // Window/Fullscreen
 DBUG("CreateGUIwindow()\n",NULL);
-//	STRPTR dgenexec_array[] = { "SDL1","SDL2", NULL },
-//	       lowres_array[] = { NULL,"320x224 (NTSC)","320x240 (PAL)","320x256 (Amiga)", NULL };
-	//STRPTR gfxscale_array[] = { NULL, "x2", "x3", "x4", "x5", "x6", "x7", "x8", NULL };
 	WORD max_w_ext = IGraphics->TextLength(&gui->screen->RastPort, GetString(&li,MSG_GUI_TITLE_COL_FMT), IUtility->Strlen(GetString(&li,MSG_GUI_TITLE_COL_FMT))+1); // max rom extension pixel width
 
 	gAppPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
@@ -455,9 +445,35 @@ DBUG("CreateGUIwindow()\n",NULL);
 	                                                  LBCIA_Width, max_w_ext,
 	                           TAG_DONE);
 
-//	make_chooser_list2(NEW_LIST, gui->game_opts_list, MSG_GUI_GAME_RUN, 3);
 	make_chooser_list2(NEW_LIST, gui->savestates_list, MSG_GUI_SAVESTATES_NO, 1);
-//	gfxscale_array[0] = (STRPTR)GetString(&li, MSG_GUI_GFXSCALE_NO);
+
+/*OBJ(OID_GPAD_WIN) = IIntuition->NewObject(WindowClass, NULL, //"window.class",
+        WA_ScreenTitle, VERS" "DATE,
+        WA_Title,       "mgbaGUI: Gamepad settings",
+        WA_PubScreen,         gui->screen,
+        WA_PubScreenFallBack, TRUE,
+        WA_DragBar,     TRUE,
+        WA_CloseGadget, TRUE,
+        //WA_SizeGadget,  TRUE,
+        WA_DepthGadget, TRUE,
+        WA_Activate,    TRUE,
+        //WA_IDCMP, IDCMP_VANILLAKEY | IDCMP_RAWKEY,
+        gui->myTT.guifade? WA_FadeTime : TAG_IGNORE, 500000, // duration of transition in microseconds
+        WINDOW_IconifyGadget, TRUE,
+        //WINDOW_AppPort,       gAppPort,
+        //WINDOW_Icon,          gui->iconify,
+        WINDOW_Position,    WPOS_CENTERWINDOW,
+//WINDOW_RefWindow, NULL,
+        WINDOW_PopupGadget, TRUE,
+        //WINDOW_JumpScreensMenu, TRUE,
+        WINDOW_UniqueID,    "mgbaGUI_Gamepad_win",
+        //WINDOW_GadgetHelp, gui->myTT.show_hints,
+        WINDOW_Layout, IIntuition->NewObject(LayoutClass, NULL, //"layout.gadget",
+         LAYOUT_Orientation,    LAYOUT_ORIENT_VERT,
+         LAYOUT_SpaceOuter,     TRUE,
+         LAYOUT_HorizAlignment, LALIGN_CENTER,
+        TAG_DONE),
+TAG_DONE);*/
 
 	OBJ(OID_MAIN) = IIntuition->NewObject(WindowClass, NULL, //"window.class",
         WA_ScreenTitle, VERS" "DATE,
@@ -554,9 +570,9 @@ DBUG("CreateGUIwindow()\n",NULL);
            TAG_DONE), // END of ROM LIST 
            CHILD_MinWidth, 200,
            CHILD_WeightedWidth, 65,
-// LEFTSIDE_GADGETS
-#include "includes/gui_leftgadgets.h"
-// LEFTSIDE_GADGETS
+// LEFTSIDE_GADGETS - START
+#include "includes/gui_leftsidegads.h"
+// LEFTSIDE_GADGETS - END
          TAG_DONE), // END of ROM LIST + LEFTSIDE_GADGETS
 
 // BUTTONS
@@ -604,15 +620,15 @@ DBUG("last_rom_run=%ld (of %ld)\n",gui->myTT.last_rom_run+1,res_totnode);
 		res_prev = gui->myTT.last_rom_run;
 	}
 
-	if( (gui->win=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) )
+	if( (gui->win[WID_MAIN]=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) )
 	{
-		IIntuition->ScreenToFront(gui->win->WScreen);
+		IIntuition->ScreenToFront(gui->win[WID_MAIN]->WScreen);
 
 		// Show preview image
 		ShowPreview(gui);
 
 		while(ProcessGUI(gui) != FALSE);
-	} // END if( (gui->win=..
+	} // END if( (gui->win[WID_MAIN]=..
 
 	IIntuition->DisposeObject( OBJ(OID_MAIN) );
 	OBJ(OID_MAIN) = NULL;
@@ -622,7 +638,7 @@ DBUG("last_rom_run=%ld (of %ld)\n",gui->myTT.last_rom_run+1,res_totnode);
 	IListBrowser->FreeLBColumnInfo(columninfo);
 	IExec->FreeSysObject(ASOT_PORT, gAppPort);
 
-IExec->FreeSysObject(ASOT_HOOK, win_fs_lvlHook);
+	IExec->FreeSysObject(ASOT_HOOK, win_fs_lvlHook);
 }
 
 void updateList(struct MGBAGUI *gui)
@@ -647,13 +663,13 @@ DBUG("updateList()\n",NULL);
 	// Add NO string (MSG_GUI_SAVESTATES_NO) at top/head of the list..
 		IExec->AddHead(gui->savestates_list, node);
 		//..and re-attach chooser list
-		IIntuition->RefreshSetGadgetAttrs(GAD(OID_SAVESTATES), gui->win, NULL,
+		IIntuition->RefreshSetGadgetAttrs(GAD(OID_SAVESTATES), gui->win[WID_MAIN], NULL,
 		                                  CHOOSER_Labels,gui->savestates_list, GA_Disabled,FALSE, TAG_DONE);
 	}
 DBUG("  gui->romlist = 0x%08lx\n",gui->romlist);
 	// Re-attach the listbrowser
 	IIntuition->SetAttrs(OBJ(OID_LISTBROWSER), LISTBROWSER_SortColumn,COL_ROM,
 	                     LISTBROWSER_Labels,gui->romlist, TAG_DONE);
-	IIntuition->RefreshSetGadgetAttrs(GAD(OID_TOTALROMS), gui->win, NULL,
+	IIntuition->RefreshSetGadgetAttrs(GAD(OID_TOTALROMS), gui->win[WID_MAIN], NULL,
 	                                  BUTTON_VarArgs,&res_tot, TAG_DONE);
 }
