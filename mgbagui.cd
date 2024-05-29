@@ -1,4 +1,4 @@
-; $VER: mgbagui.cd 1.1 (15.05.2024)
+; $VER: mgbagui.cd 1.1 (28.05.2024)
 ;
 ;
 MSG_ERROR_NOROMS (1//)
@@ -23,7 +23,7 @@ _OK
 ;
 MSG_GUI_ABOUT_TEXT (//200)
 \033c\033b%s %s\033n\n\n\
-GUI for mGBA, OS4 port by Marek Glogowski\n\n\
+GUI for MGBA, OS4 port by Marek Glogowski\n\n\
 Acknowlegdments: McFly, samo79,\n\
 smarkusg and everyone I forget.\n\n\
 (using built-in strings)
@@ -69,6 +69,9 @@ FS
 MSG_GUI_FRAMESKIP (//)
 Frameskip
 ;
+MSG_GUI_GAMEPAD_BTN (//)
+Gamepad settings...
+;
 MSG_GUI_FORCESIZE (//)
 Force size
 ;
@@ -79,8 +82,8 @@ MSG_GUI_TOTALROMS (//)
 ;MSG_GUI_OPTIONS_GROUP (//)
 ;Options
 ;
-MSG_GUI_GAME_RUN (//)
-Play selected game
+;MSG_GUI_GAME_RUN (//)
+;Play selected game
 ;
 MSG_GUI_ABOUT_BTN (//)
 About...
@@ -90,6 +93,18 @@ Save settings
 ;
 MSG_GUI_QUIT_BTN (//)
 Quit
+;
+;MSG_GUI_GPAD_WINTITLE (//)
+;mgbaGUI: Gamepad settings
+;
+MSG_GUI_GPAD_SAVE (//)
+Sa_ve
+;
+MSG_GUI_GPAD_CANCEL (//)
+_Cancel
+;
+MSG_GUI_GPAD_TEXT (//)
+(assign gamepad buttons)
 ;
 ;
 MSG_GUI_ROMDRAWER_HELP (500//)
@@ -121,6 +136,10 @@ How to view/display game.\n\
 MSG_GUI_FRAMESKIP_HELP (//)
 Number of frames to skip. (max.:10)
 ;
+MSG_GUI_GAMEPAD_BTN_HELP (//)
+Open window with gamepad's\n\
+buttons settings.
+;
 MSG_GUI_FORCESIZE_HELP (//)
 Force window/screen\n\
 width and height.
@@ -137,4 +156,11 @@ FORCESIZE_H
 ;
 MSG_GUI_QUIT_BTN_HELP (//)
 Quit mgbaGUI
+;
+MSG_GUI_GPAD_SAVE_HELP (//)
+Save buttons to 'config.ini'\n\
+and close window.
+;
+MSG_GUI_GPAD_CANCEL_HELP (//)
+Close window without saving.
 ;
