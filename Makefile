@@ -3,7 +3,7 @@ CC = SDK:gcc/bin/gcc
 LD = SDK:gcc/bin/gcc
 
 
-OBJ = main.o gui_mgba.o gui_resources.o gui_build.o
+OBJ = main.o gui_mgba.o gui_resources.o gui_build.o gui_gamepad.o
 
 
 BIN = mgbaGUI
@@ -46,7 +46,7 @@ clean: clean-custom
 	rm -v $(OBJ)
 
 realclean:
-	rm -v $(OBJ) $(BIN) $(BIN).debug
+	rm -v $(OBJ) $(BIN) $(BIN).debug mgbagui_strings.h
 
 $(BIN): $(OBJ) $(LIBS)
 #	You may need to move the LDFLAGS variable in this rule depending on its contents
@@ -76,7 +76,9 @@ gui_mgba.o: gui_mgba.c includes/includes.h mgbagui_rev.h mgbagui_strings.h
 
 gui_resources.o: gui_resources.c includes/includes.h mgbagui_rev.h mgbagui_strings.h
 
-gui_build.o: gui_build.c includes/gui_leftgadgets.h includes/includes.h mgbagui_rev.h mgbagui_strings.h
+gui_build.o: gui_build.c includes/gui_leftsidegads.h includes/includes.h mgbagui_rev.h mgbagui_strings.h
+
+gui_gamepad.o: gui_gamepad.c includes/includes.h mgbagui_rev.h mgbagui_strings.h
 
 
 ###################################################################
