@@ -29,8 +29,8 @@ _Aceptar
 MSG_GUI_ABOUT_TEXT
 \033c\033b%s %s\033n\n\n\
 GUI para mGBA, OS4 port por Marek Glogowski\n\n\
-Agradecimientos: Maijestro, McFly,\n\
-samo79, smarkusg y a todo el mundo.\n\n\
+Agradecimientos: McFly, samo79,\n\
+smarkusg y a todo el mundo.\n\n\
 (Traducción: Javier de las Rivas)
 ; \033c\033b%s %s\033n\n\n\
 ; GUI for MGBA, OS4 port by Marek Glogowski\n\n\
@@ -62,8 +62,8 @@ MSG_GUI_SAVESTATES_NO
 No
 ; No
 ;
-MSG_GUI_SAVESTATES_AUTO
-auto.
+;MSG_GUI_SAVESTATES_AUTO
+;auto.
 ; auto
 ;
 MSG_GUI_GFXSCALE
@@ -90,8 +90,8 @@ MSG_GUI_TOTALROMS
  %ld roms disponibles
 ;  %ld roms availables
 ;
-MSG_GUI_GAME_RUN
-Jugar ROM seleccionada
+;MSG_GUI_GAME_RUN
+;Jugar ROM seleccionada
 ; Play selected game
 ;
 MSG_GUI_ABOUT_BTN

@@ -1,37 +1,27 @@
-## version $VER: mgbagui.catalog 1.1 (12.05.2024)
-## codeset 4
-## language italiano
-;## chunk AUTH Translated by Samir Hawamdeh (http://www.betatesting.it/backforthefuture)
-;
-; ATO Italia
-; Compiled with FlexCat 2.18 PPC (AmigaOS4)
-; flexcat mgbagui.cd mgbagui_it.ct catalog=mgbagui.catalog
-; 
-; Italian translation of mgbagui
-;
-; Traduzione italiana di mgbagui
-;
-; $VER: mgbagui.cd 1.1 (9.05.2024)
+## version $VER: mgbagui.catalog 1.1 (18.05.2024)
+## codeset 5
+## language polish
+## chunk AUTH Translated by smarkusg
 ;
 MSG_ERROR_NOROMS
-Nessuna ROM trovata
+Nie znaleziono roms.
 ; No roms found.
 ;
 MSG_ERROR_REQUIRED
-Impossibile trovare la libreria/classe necessaria
+Nie mo¿na znale¶æ wymaganej biblioteki/klasy.
 ; Couldn't find required library/classes.
 ;
 MSG_ERROR_ROMDRAWER
-\033cImpossibile caricare la cartella ROM:\n%s
+\033cNie uda³o siê za³adowaæ szuflady z plikami ROM\n%s.
 ; \033cFailed to load ROM drawer:\n%s.
 ; IOERR_STRING
 ;
 MSG_ERROR_LAUNCHING
-Errore durante l'avvio di mGBA!
+B³±d uruchamiania pliku wykonywalnego mGBA!
 ; Error launching mgba executable!
 ;
 MSG_ERROR_GUI_NOPREVIEW
-Anteprima non disponibile
+Podgl±d niedostêpny
 ; Preview not available
 ;
 MSG_OK_GAD
@@ -40,12 +30,10 @@ _OK
 ;
 MSG_GUI_ABOUT_TEXT
 \033c\033b%s %s\033n\n\n\
-GUI per mGBA, port su OS4 di Marek Glogowski\n\n\
-Un ringraziamento speciale a kas1e,\n\
-samo79, smarkusg e tutti quelli che potrei\n\
-aver dimenticato\n\n\
-Traduzione italiana a cura di\n\
-Samir Hawamdeh
+GUI dla mGBA autorstwa Javier de las Rivas\n\n\
+Podziêkowania: MacFly, Maijestro, samo79,\n\
+i wszyscy o któch zapomniano wspomie.\n\n\
+(T³umaczenie: smarkusg)
 ; \033c\033b%s %s\033n\n\n\
 ; GUI for MGBA, OS4 port by Marek Glogowski\n\n\
 ; Acknowlegdments: samo79, smarkusg\n\
@@ -54,31 +42,35 @@ Samir Hawamdeh
 ; VERS DATE (and change 'built-in..' with translator data, keep as short as possible)
 ;
 MSG_GUI_TITLE_COL_ROM
-ROM/Gioco
+Gra
 ; Game
 ;
 MSG_GUI_TITLE_COL_FMT
-Formato
+Format
 ; Format
 ;
 MSG_GUI_ROMDRAWER
- ROM:
+ ROMY:
 ;  ROMS:
 ;
 MSG_GUI_ROMDRAWER_TITLE
-Seleziona percorso della cartella ROM
+Wybierz szufladê z plikami ROM
 ; Select ROMs path
 ;
 MSG_GUI_SAVESTATES
-Carica slot salvataggio
+Za³aduj zapisane sloty
 ; Load savestate
 ;
 MSG_GUI_SAVESTATES_NO
-Nessuno
+Nie
 ; No
 ;
+;MSG_GUI_SAVESTATES_AUTO
+;Auto
+; auto
+;
 MSG_GUI_GFXSCALE
-Scala finestra
+Tryb Widoku
 ; Scale window
 ;
 ; MAX 3 chars. Slider [W x1] or [W x2]..
@@ -89,27 +81,30 @@ W x
 ; MAX 4 chars. Slider [ FS ]
 MSG_GUI_GFXSCALE_FS
 FS
-;  FS \0
 ;
 ; MSG_GUI_FULLSCREEN
-; Schermo intero
+;Pe³ny ekran
 ; Fullscreen
 ;
 MSG_GUI_FRAMESKIP
-Frameskip
+Pomiñ Klatki
 ; Frameskip
 ;
+MSG_GUI_FORCESIZE
+Wymu¶ wielko¶æ
+; Force size
+;
 MSG_GUI_TOTALROMS
- %ld rom disponibili
+%ld dostepne pliki rom
 ;  %ld roms availables
 ; space at beginning to not being too close to rom listbrowser
 ;
 ; MSG_GUI_OPTIONS_GROUP
-; Opzioni
+;Opcje
 ; Options
 ;
 ;MSG_GUI_GAME_RUN
-;Avvia gioco selezionato
+;Zagraj w wybran grê
 ; Play selected game
 ;
 ; MSG_GUI_GAME_REC
@@ -125,59 +120,81 @@ MSG_GUI_TOTALROMS
 ; Select record game path and name
 ;
 MSG_GUI_ABOUT_BTN
-Informazioni...
+O Programie...
 ; About...
 ;
 MSG_GUI_SAVE_BTN
-Salva impostazioni
+Zapisz ustawienia
 ; Save settings
 ;
 MSG_GUI_QUIT_BTN
-Esci
+Wyj¶cie
 ; Quit
 ;
 MSG_GUI_ROMDRAWER_HELP
-Seleziona cartella delle ROM Gameboy/Color/Advance
+Wybrany katalog z plikami ROM Gameboy/Color/Advance.
 ; Path with Gameboy/Advance ROMs.
 ;
 MSG_GUI_LISTBROWSER_HELP
-Elenco delle ROM Gameboy/Color/Advance.\n\
-Puoi far partire il gioco con un semplice\n\
-doppio click, oppure cliccando sull'immagine
+Lista plików ROM Gameboy/Color/Advance.\n\
+Podwó³jne klikniêcie jest traktowane jak klikniêcie\n\
+w obrazek/przycisk.
 ; List of Gameboy/Advance ROMs.\n\
 ; Double click to \"launch\" ROM.
 ;
 OID_PREVIEW_BTN_HELP
-Clicca per \"avviare\" la ROM selezionata
+Kliknij, aby \"uruchomiæ" ROM.\n\
 ; Click to \"launch\" ROM.
 ;
 MSG_GUI_SAVESTATES_HELP
-Elenco degli \"slot\" salvati disponibili
+Lista dostepnych zapisów stany\n\
+dla wybranego pliku ROM. \n\
+(\033bAuto: \033n£aduje ostatni zapis  rozgrywki)
+;(\033bAuto: \033n£aduje ostatni zapis rozgrywki)
 ; List availables savestates\n\
-; from selected ROM.
+; from selected ROM.\n\
+; (\033bauto: \033nloads last gameplay)
 ;
 MSG_GUI_GFXSCALE_HELP
-Valore/Ampiezza scalatura della finestra (max.:x8)
+Jaki tryb widoku gry.\n\
+\033bW: \033nokno (skala x1,x2,..).\n\
+\033bFS: \033npe³ny ekran.
+; How to view/display game.\n\
+; \033bW: \033nwindow (scaled x1,x2,..).\n\
+; \033bFS: \033nfullscreen.
+; Show game in \033bW\033nindow (scaled x1,x2,..)\n\
+; or in \033bF\033null\033bS\033ncreen.
 ; Value/Times to scale window (max.:x8).
 ;
+; MSG_GUI_FULLSCREEN_HELP
+; Apri gioco in modalità schermo intero
+; Open game in fullscreen mode.
+;
 MSG_GUI_FRAMESKIP_HELP
-Numero dei frames da skippare (max.:10)
+Ilo¶æ klatek do pominiêcia (max.:10)
 ; Number of frames to skip (max.:10).
 ;
+MSG_GUI_FORCESIZE_HELP
+Wmuszenie wielko¶ci\n\
+szeroko¶æ/wysoko¶æ
+; Force window/screen\n\
+; width and height.
+;
 MSG_GUI_ABOUT_BTN_HELP
-Mostra informazioni su mGBAGUI
+Poka¿ informacjê o mbgaGUI
 ; Show about mgbaGUI
 ;
 MSG_GUI_SAVE_BTN_HELP
-Salva i tooltype:\n\
-\033bROMS_DRAWER
-VIEWMODE\n\
+Zapisz tooltype:\n\
+\033bROMS_DRAWER\n\
 FORCESIZE_W\n\
 FORCESIZE_H
 ; Save tooltypes:\n\
-; \033bROMS_DRAWER
+; \033bROMS_DRAWER\n\
+; FORCESIZE_W\n\
+; FORCESIZE_H
 ;
 MSG_GUI_QUIT_BTN_HELP
-Esci da mGBAGUI
+Wyj¶cie z mGBAGUI
 ; Quit mgbaGUI
 ;
