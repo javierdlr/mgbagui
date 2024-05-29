@@ -15,12 +15,14 @@ struct LocaleInfo li;
 extern int32 beginCommand(STRPTR rom_file, STRPTR rom_ext);
 
 
+struct Library *AIN_Base = NULL;
 struct Library *IconBase = NULL;
 //struct Library *DOSBase;
 struct Library *IntuitionBase = NULL;
 struct Library *GfxBase = NULL;
 struct Library *UtilityBase = NULL;
 struct Library *LocaleBase = NULL;
+struct AIN_IFace *IAIN = NULL;
 struct IconIFace *IIcon = NULL;
 extern struct DOSIFace *IDOS;
 struct IntuitionIFace *IIntuition = NULL;
@@ -45,7 +47,7 @@ struct ListBrowserIFace *IListBrowser = NULL;
 struct ChooserIFace *IChooser = NULL;
 
 
-extern Object *Objects[LAST_NUM];
+extern Object *Objects[LAST_OID];
 
 
 BOOL OpenLibs(void)
@@ -77,6 +79,9 @@ DBUG("OpenLibs() - START\n",NULL);
 
 	IconBase = IExec->OpenLibrary("icon.library", 52);
 	IIcon = (struct IconIFace *)IExec->GetInterface(IconBase, "main", 1, NULL);
+
+	AIN_Base = IExec->OpenLibrary("AmigaInput.library", 52);
+	IAIN = (struct AIN_IFace *)IExec->GetInterface(AIN_Base, "main", 1, NULL);
 
 	if(DOSBase==NULL  ||  UtilityBase==NULL  ||  IntuitionBase==NULL  ||  GfxBase==NULL
 	   ||  LocaleBase==NULL  ||  IconBase==NULL) { return FALSE; }
@@ -144,6 +149,8 @@ DBUG("CloseLibs()\n",NULL);
 	}
 	IExec->CloseLibrary( (struct Library *)LocaleBase );
 
+	IExec->DropInterface( (struct Interface *)IAIN );
+	IExec->CloseLibrary(AIN_Base);
 	IExec->DropInterface( (struct Interface *)IIcon );
 	IExec->CloseLibrary(IconBase);
 	IExec->DropInterface( (struct Interface *)IGraphics );
@@ -548,16 +555,17 @@ DBUG("  SortList() savestates\n",NULL);
 	// Add NO string (MSG_GUI_SAVESTATES_NO) at top/head of the list..
 	node = IChooser->AllocChooserNode(CNA_Text,GetString(&li,MSG_GUI_SAVESTATES_NO), TAG_DONE);
 	IExec->AddHead(gui->savestates_list, node);
-	//if(gui->myTT.autosnapshot) {
+	/*if(gui->myTT.autosnapshot) {
 		//..add AUTO string (MSG_GUI_SAVESTATES_AUTO) at bottom/tail of the list..
-//		node = IChooser->AllocChooserNode(CNA_Text,GetString(&li,MSG_GUI_SAVESTATES_AUTO), CNA_UserData,0xC0DEDEAD, TAG_DONE);
-//		IExec->AddTail(gui->savestates_list, node);
-	//}
+		node = IChooser->AllocChooserNode(CNA_Text,GetString(&li,MSG_GUI_SAVESTATES_AUTO), CNA_UserData,0xC0DEDEAD, TAG_DONE);
+		IExec->AddTail(gui->savestates_list, node);
+	}*/
 	//..and re-attach chooser list
 	IIntuition->SetAttrs(OBJ(OID_SAVESTATES), CHOOSER_Labels,gui->savestates_list, GA_Disabled,FALSE, 
-	                     CHOOSER_SelectedNode,gui->myTT.autosnapshot? node : NULL, TAG_DONE);
+	                     CHOOSER_SelectedNode,NULL, TAG_DONE);
+//	                     CHOOSER_SelectedNode,gui->myTT.autosnapshot? node : NULL, TAG_DONE);
 
-	IIntuition->RefreshGadgets(GAD(OID_SAVESTATES), gui->win, NULL);
+	IIntuition->RefreshGadgets(GAD(OID_SAVESTATES), gui->win[WID_MAIN], NULL);
 
 	IDOS->ReleaseDirContext(context);
 	IExec->FreeVec(pattern_ms);
@@ -583,15 +591,15 @@ DBUG("res_n=0x%08lx -> res_s='%s'\n",res_n,res_s);
 	IDOS->AddPart(filename, res_s, FILENAME_LENGTH);      // add ROM filename
 	IUtility->Strlcat(filename, ".png", FILENAME_LENGTH); // add extension
 DBUG("PREVIEW: '%s'\n",filename);
-	if(updateButtonImage(filename, NULL, OID_PREVIEW_BTN, gui->win) == FALSE) // .PNG (previews drawer)
+	if(updateButtonImage(filename, NULL, OID_PREVIEW_BTN, gui->win[WID_MAIN]) == FALSE) // .PNG (previews drawer)
 	{
 		IUtility->Strlcpy(filename, SCRSHOTS, FILENAME_LENGTH);
 		IDOS->AddPart(filename, res_s, FILENAME_LENGTH);      // add ROM filename
 		IUtility->Strlcat(filename, ".png", FILENAME_LENGTH); // add extension
 
-		if(updateButtonImage(filename, NULL, OID_PREVIEW_BTN, gui->win) == FALSE) // .TGA (screenshoots drawer)
+		if(updateButtonImage(filename, NULL, OID_PREVIEW_BTN, gui->win[WID_MAIN]) == FALSE) // .TGA (screenshoots drawer)
 		{
-			updateButtonImage(PREVIEWS"/_not_available.png", GetString(&li,MSG_ERROR_GUI_NOPREVIEW), OID_PREVIEW_BTN, gui->win); // fallback img/txt
+			updateButtonImage(PREVIEWS"/_not_available.png", GetString(&li,MSG_ERROR_GUI_NOPREVIEW), OID_PREVIEW_BTN, gui->win[WID_MAIN]); // fallback img/txt
 		}
 	}
 
@@ -617,19 +625,19 @@ DBUG("  res_n=0x%08lx -> res_s='%s' (res_e='%s')\n",res_n,res_s,res_e);
 	IUtility->Strlcat( rom_ext, res_e, sizeof(rom_ext) );
 	IDOS->AddPart(filename, res_s, FILENAME_LENGTH); // add ROM filename
 DBUG("  Starting ROM '%s%s'...\n",filename,rom_ext);
-	updateButtonImage(NULL, "", OID_PREVIEW_BTN, gui->win); // "unlock" preview image/button
-DBUG("  WM_CLOSE (win=0x%08lx)\n",gui->win);
+	updateButtonImage(NULL, "", OID_PREVIEW_BTN, gui->win[WID_MAIN]); // "unlock" preview image/button
+DBUG("  WM_CLOSE (win[WID_MAIN]=0x%08lx)\n",gui->win[WID_MAIN]);
 	IIntuition->IDoMethod(OBJ(OID_MAIN), WM_CLOSE);
-	gui->win = NULL;
+	gui->win[WID_MAIN] = NULL;
 	// LAUNCH ROM
 	if(beginCommand(filename,rom_ext) != 0) {
 		DoMessage( (STRPTR)GetString(&li,MSG_ERROR_LAUNCHING), REQIMAGE_ERROR, NULL ); //"Error launching 'snes9x-sdl'!"
 	}
 
-	if( (gui->win=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) )
+	if( (gui->win[WID_MAIN]=(struct Window *)IIntuition->IDoMethod(OBJ(OID_MAIN), WM_OPEN, NULL)) )
 	{
-DBUG("  WM_OPEN (win=0x%08lx)\n",gui->win);
-		gui->screen = gui->win->WScreen;
+DBUG("  WM_OPEN (win[WID_MAIN]=0x%08lx)\n",gui->win[WID_MAIN]);
+		gui->screen = gui->win[WID_MAIN]->WScreen;
 		//IIntuition->SetAttrs(OBJ(OID_MAIN), WA_PubScreen,gui->screen, TAG_DONE);
 		ShowPreview(gui); // "reload" preview (maybe user created a snapshoot)
 		IIntuition->ScreenToFront(gui->screen);
